@@ -76,6 +76,14 @@ function Timeline (container, items, options) {
         start: now.clone().add('days', -3).valueOf(),
         end:   now.clone().add('days', 4).valueOf()
     });
+  /* TODO: fix range options
+    var rangeOptions = Object.create(this.options);
+    this.range = new Range(rangeOptions);
+    this.range.setRange(
+        now.clone().add('days', -3).valueOf(),
+        now.clone().add('days', 4).valueOf()
+    );
+    */
     // TODO: reckon with options moveable and zoomable
     this.range.subscribe(this.rootPanel, 'move', 'horizontal');
     this.range.subscribe(this.rootPanel, 'zoom', 'horizontal');
@@ -122,6 +130,8 @@ Timeline.prototype.setOptions = function (options) {
         util.extend(this.options, options);
     }
 
+    // TODO: apply range min,max
+
     this.controller.reflow();
     this.controller.repaint();
 };
@@ -164,6 +174,10 @@ Timeline.prototype.setItems = function(items) {
         var max = dataRange.max;
         if (min != null && max != null) {
             var interval = (max.valueOf() - min.valueOf());
+            if (interval <= 0) {
+                // prevent an empty interval
+                interval = 24 * 60 * 60 * 1000; // 1 day
+            }
             min = new Date(min.valueOf() - interval * 0.05);
             max = new Date(max.valueOf() + interval * 0.05);
         }
