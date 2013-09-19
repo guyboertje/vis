@@ -6,6 +6,12 @@
     <style type="text/css">
         body, html {
             font-family: sans-serif;
+            font-size: 12px;
+        }
+        #visualization {
+            box-sizing: border-box;
+            width: 50%;
+            height: 100%;
         }
     </style>
 
@@ -16,16 +22,16 @@
 
 <script type="text/javascript">
     var container = document.getElementById('visualization');
+    var date = moment().hours(0).minutes(0).seconds(0).milliseconds(0);
+    console.log( date.toString());
     var items = [
-        {id: 1, content: 'item 1', start: '2013-04-20'},
-        {id: 2, content: 'item 2', start: '2013-04-14'},
-        {id: 3, content: 'item 3', start: '2013-04-18'},
-        {id: 4, content: 'item 4', start: '2013-04-16', end: '2013-04-19'},
-        {id: 5, content: 'item 5', start: '2013-04-25'},
-        {id: 6, content: 'item 6', start: '2013-04-27'}
+        {id: 1, content: 'Band 1', start: date.clone().add('hours', 20), end: date.clone().add('hours', 20.75)},
+        {id: 2, content: 'Band 2', start: date.clone().add('hours', 21), end: date.clone().add('hours', 21.75)},
+        {id: 3, content: 'Band 3', start: date.clone().add('hours', 22), end: date.clone().add('hours', 23.25)}
     ];
-    var options = {};
-    var timeline = new vis.Timeline(container, items, options);
+    var options = {start: date.clone().add('days', -1), end: date.clone().add('days', +1)};
+    var timeline = new vis.Timeline(container, items, {});
+    timeline.setOptions(options);
 </script>
 </body>
 </html>
